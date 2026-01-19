@@ -4,6 +4,7 @@ import requests
 from streamlit_autorefresh import st_autorefresh
 import datetime
 import os
+import pytz
 
 # --- 1. CONFIGURATION (Same as before) ---
 CLIENT_ID = st.secrets["ZOHO_CLIENT_ID"]
@@ -39,7 +40,8 @@ st_autorefresh(interval=5 * 60 * 1000, key="datarefresh")
 st.title("🚀 Zoho CRM Live Sales Tracker")
 
 # Display timestamp - updates on each refresh (time first, then date in day-month-year format)
-now = datetime.datetime.now()
+ist = pytz.timezone('Asia/Kolkata')
+now = datetime.datetime.now(ist)
 last_updated = f"{now.strftime('%H:%M:%S')} {now.strftime('%d-%m-%Y')}"
 st.caption(f"Last updated: {last_updated}")
 
@@ -72,5 +74,6 @@ try:
         
 except Exception as e:
     st.error(f"Connection Error: {e}")
+
 
 
